@@ -45,7 +45,8 @@ class NEODatabase:
         # TODO: What additional auxiliary data structures will be useful?
             # data structures to help the functions below be faster
         self._desigs_dict = {neo.designation: neo for neo in self._neos}
-        # TODO: Link together the NEOs and their close approaches.
+        self._name_dict = {neo.name: neo for neo in self._neos}
+
         for ca in approaches:
             ca.neo = self._desigs_dict[ca._designation]
             self._desigs_dict[ca._designation].approaches.append(ca)
@@ -64,8 +65,7 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-        # TODO: Fetch an NEO by its primary designation.
-        return None
+        return self._desigs_dict.get(designation, None)
 
     def get_neo_by_name(self, name):
         """Find and return an NEO by its name.
@@ -81,8 +81,7 @@ class NEODatabase:
         :param name: The name, as a string, of the NEO to search for.
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
-        # TODO: Fetch an NEO by its name.
-        return None
+        return self._name_dict.get(name, None)
 
     def query(self, filters=()):
         """Query close approaches to generate those that match a collection of filters.
