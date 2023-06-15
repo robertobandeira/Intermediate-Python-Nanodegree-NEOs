@@ -42,8 +42,8 @@ class NearEarthObject:
         """
         self.designation = designation
         self.name = name
-        self.diameter = diameter
-        self.hazardous = hazardous
+        self.diameter = float(diameter) if diameter != '' else float('nan')
+        self.hazardous = True if hazardous == 'Y' else False
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -90,8 +90,8 @@ class CloseApproach:
         """
         self._designation = designation
         self.time = cd_to_datetime(time) if time is not None else None
-        self.distance = distance
-        self.velocity = velocity
+        self.distance = distance if distance != '' else 0.0
+        self.velocity = velocity if velocity != '' else 0.0
 
         # Create an attribute for the referenced NEO, originally None.
         self.neo = None
@@ -109,14 +109,13 @@ class CloseApproach:
         formatted string that can be used in human-readable representations and
         in serialization to CSV and JSON files.
         """
-        # TODO: Use self.designation and self.name to build a fullname for this object.
         return datetime_to_str(self.time) if self.time is not None else ''
 
     def __str__(self):
         """Return `str(self)`."""
-        return f"At {self.time_str}, '{self.neo.fullname}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
+        return f"At {self.time_str}, '{self._designation}' approaches Earth at a distance of {self.distance:.2f} au and a velocity of {self.velocity:.2f} km/s."
 
     def __repr__(self):
         """Return `repr(self)`, a computer-readable string representation of this object."""
-        return f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, " \
+        return f"CloseApproach(time={self.time_str}, distance={self.distance:.2f}, " \
                f"velocity={self.velocity:.2f}, neo={self.neo!r})"
