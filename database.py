@@ -43,8 +43,13 @@ class NEODatabase:
         self._approaches = approaches
 
         # TODO: What additional auxiliary data structures will be useful?
-
+            # data structures to help the functions below be faster
+        self._desigs_dict = {neo.designation: neo for neo in self._neos}
         # TODO: Link together the NEOs and their close approaches.
+        for ca in approaches:
+            ca.neo = self._desigs_dict[ca._designation]
+            self._desigs_dict[ca._designation].approaches.append(ca)
+
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
