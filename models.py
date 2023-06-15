@@ -41,7 +41,7 @@ class NearEarthObject:
         :param hazardous: Whether or not this NearEarthObject is potentially hazardous
         """
         self.designation = designation
-        self.name = name
+        self.name = name if name != '' else None
         self.diameter = float(diameter) if diameter != '' else float('nan')
         self.hazardous = True if hazardous == 'Y' else False
 
@@ -90,8 +90,8 @@ class CloseApproach:
         """
         self._designation = designation
         self.time = cd_to_datetime(time) if time is not None else None
-        self.distance = distance if distance != '' else 0.0
-        self.velocity = velocity if velocity != '' else 0.0
+        self.distance = float(distance) if distance != '' else 0.0
+        self.velocity = float(velocity) if (velocity != '' or velocity is not None) else 0.0
 
         # Create an attribute for the referenced NEO, originally None.
         self.neo = None
