@@ -91,8 +91,10 @@ class CloseApproach:
         self._designation = designation
         self.time = cd_to_datetime(time) if time is not None else None
         self.distance = float(distance) if distance != '' else 0.0
-        self.velocity = float(velocity) if (velocity != '' or velocity is not None) else 0.0
-
+        if velocity is None or velocity == '':
+            self.velocity = 0.0
+        else:
+            self.velocity = float(velocity)
         # Create an attribute for the referenced NEO, originally None.
         self.neo = None
 
