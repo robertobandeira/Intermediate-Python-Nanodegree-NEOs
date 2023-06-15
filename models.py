@@ -80,7 +80,7 @@ class CloseApproach:
     private attribute, but the referenced NEO is eventually replaced in the
     `NEODatabase` constructor.
     """
-    def __init__(self, time = None, distance = 0.0, velocity = 0.0, neo = None):
+    def __init__(self, designation = '', time = None, distance = 0.0, velocity = 0.0):
         """Create a new `CloseApproach`.
 
         :param time: The date and time, in UTC, at which the NEO passes closest to Earth.
@@ -88,17 +88,13 @@ class CloseApproach:
         :param valocity: The velocity, in kilometers per second, of the NEO relative to Earth at the closest point.
         :param neo: The NearEarthObject that is making a close approach to Earth.
         """
-        # TODO: Assign information from the arguments passed to the constructor
-        # onto attributes named `_designation`, `time`, `distance`, and `velocity`.
-        # You should coerce these values to their appropriate data type and handle any edge cases.
-        # The `cd_to_datetime` function will be useful.
-        self._designation = ''
+        self._designation = designation
         self.time = cd_to_datetime(time) if time is not None else None
         self.distance = distance
         self.velocity = velocity
 
         # Create an attribute for the referenced NEO, originally None.
-        self.neo = neo
+        self.neo = None
 
     @property
     def time_str(self):
