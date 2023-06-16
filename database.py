@@ -101,6 +101,6 @@ class NEODatabase:
         for approach in self._approaches:
             test = True
             for filter in filters:
-                test = test & filter(approach)
+                test = test and filter(approach)
             if test == True:
                 yield approach

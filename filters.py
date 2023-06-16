@@ -17,6 +17,7 @@ iterator.
 You'll edit this file in Tasks 3a and 3c.
 """
 import operator
+import math
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -54,6 +55,8 @@ class AttributeFilter:
 
     def __call__(self, approach):
         """Invoke `self(approach)`."""
+        # if math.isnan(temp):
+        #     return False
         return self.op(self.get(approach), self.value)
 
     @classmethod
@@ -78,6 +81,38 @@ class DistanceFilter(AttributeFilter):
     @classmethod
     def get(cls, approach):
         return approach.distance
+    
+class VelocityFilter(AttributeFilter):
+    """
+    Subclass to AttributeFilter for velocity.
+    """
+    @classmethod
+    def get(cls, approach):
+        return approach.velocity  
+
+class DiameterFilter(AttributeFilter):
+    """
+    Subclass to AttributeFilter for diameter.
+    """
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.diameter 
+    
+class DateFilter(AttributeFilter):
+    """
+    Subclass to AttributeFilter for date.
+    """
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+class HazardousFilter(AttributeFilter):
+    """
+    Subclass to AttributeFilter for hazardous.
+    """
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.hazardous
 
 def create_filters(
         date=None, start_date=None, end_date=None,
@@ -117,8 +152,26 @@ def create_filters(
     """
     # TODO: Decide how you will represent your filters.
     filters = []
-    filters.append(DistanceFilter(operator.le, distance_max))
-    filters.append(DistanceFilter(operator.ge, distance_min))
+    if distance_max is not None:
+        filters.append(DistanceFilter(operator.le, distance_max))
+    if distance_min is not None:
+        filters.append(DistanceFilter(operator.ge, distance_min))
+    if velocity_max is not None:
+        filters.append(VelocityFilter(operator.le, velocity_max))
+    if velocity_min is not None:
+        filters.append(VelocityFilter(operator.ge, velocity_min))
+    if diameter_max is not None:
+        filters.append(DiameterFilter(operator.le, diameter_max))
+    if diameter_min is not None:
+        filters.append(DiameterFilter(operator.ge, diameter_min))
+    if date is not None:
+        filters.append(DateFilter(operator.eq, date))
+    if start_date is not None:
+        filters.append(DateFilter(operator.ge, start_date))
+    if end_date is not None:
+        filters.append(DateFilter(operator.le, end_date))
+    if hazardous is not None:
+        filters.append(HazardousFilter(operator.eq, hazardous))
     return filters
 
 
