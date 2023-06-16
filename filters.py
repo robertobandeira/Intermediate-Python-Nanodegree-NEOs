@@ -71,6 +71,13 @@ class AttributeFilter:
     def __repr__(self):
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
+class DistanceFilter(AttributeFilter):
+    """
+    Subclass to AttributeFilter for distance.
+    """
+    @classmethod
+    def get(cls, approach):
+        return approach.distance
 
 def create_filters(
         date=None, start_date=None, end_date=None,
@@ -109,7 +116,10 @@ def create_filters(
     :return: A collection of filters for use with `query`.
     """
     # TODO: Decide how you will represent your filters.
-    return ()
+    filters = []
+    filters.append(DistanceFilter(operator.le, distance_max))
+    filters.append(DistanceFilter(operator.ge, distance_min))
+    return filters
 
 
 def limit(iterator, n=None):
