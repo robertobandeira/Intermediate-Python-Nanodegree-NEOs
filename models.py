@@ -45,7 +45,7 @@ class NearEarthObject:
         if diameter is None or diameter == '':
             self.diameter = float('nan')
         else:
-            self.diameter = diameter
+            self.diameter = float(diameter)
         self.hazardous = True if hazardous == 'Y' else False
 
         # Create an empty initial collection of linked approaches.
