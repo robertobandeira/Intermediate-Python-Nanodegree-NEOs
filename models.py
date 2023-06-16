@@ -90,7 +90,10 @@ class CloseApproach:
         """
         self._designation = designation
         self.time = cd_to_datetime(time) if time is not None else None
-        self.distance = float(distance) if distance != '' else 0.0
+        if distance is None or distance == '':
+            self.distance = 0.0
+        else:
+            self.distance = float(distance)
         if velocity is None or velocity == '':
             self.velocity = 0.0
         else:
