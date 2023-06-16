@@ -17,7 +17,7 @@ iterator.
 You'll edit this file in Tasks 3a and 3c.
 """
 import operator
-import math
+import itertools
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -150,7 +150,6 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
     filters = []
     if distance_max is not None:
         filters.append(DistanceFilter(operator.le, distance_max))
@@ -184,5 +183,6 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
+    if n is not None and n !=0:
+        return itertools.islice(iterator, n)
     return iterator
