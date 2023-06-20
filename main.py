@@ -416,13 +416,13 @@ class NEOShell(cmd.Cmd):
 
     def precmd(self, line):
         """Watch for changes to the files in this project."""
-        changed = [f for f in PROJECT_ROOT.glob('*.py')
-                   if f.stat().st_mtime > _START]
-        if changed:
+        ch = [f for f in PROJECT_ROOT.glob('*.py')
+              if f.stat().st_mtime > _START]
+        if ch:
             print("The following file(s) have been modified since this\
                    interactive session began: "
-                  f"{', '.join(str(f.relative_to(PROJECT_ROOT))
-                               for f in changed)}.", file=sys.stderr)
+                  f"{', '.join(str(f.relative_to(PROJECT_ROOT))for f in ch)}.",
+                  file=sys.stderr)
             if not self.aggressive:
                 print("To include these changes, please exit and restart \
                       this interactive session.",
